@@ -2,8 +2,8 @@ from django import forms
 
 from dcim.models import Site
 from netbox.forms import NetBoxModelForm, NetBoxModelFilterSetForm
-from utilities.forms.choices import BOOLEAN_WITH_BLANK_CHOICES
-from utilities.forms.fields import CommentField, DynamicModelMultipleChoiceField
+from utilities.forms.constants import BOOLEAN_WITH_BLANK_CHOICES
+from utilities.forms.fields import CommentField, DynamicModelMultipleChoiceField, TagFilterField
 from utilities.forms.rendering import FieldSet
 
 from .base.models import UCKConsole, SyncLog
@@ -72,6 +72,7 @@ class UCKConsoleFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('site_id', 'has_integration_credentials', 'has_design_credentials', name='UniFi AIO'),
     )
+    tag = TagFilterField(UCKConsole)
     site_id = DynamicModelMultipleChoiceField(
         queryset=Site.objects.all(), required=False, label='Site',
     )
@@ -91,6 +92,7 @@ class UnifiDeviceFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('console_id', 'state', 'adopted', name='UniFi'),
     )
+    tag = TagFilterField(UnifiDevice)
     console_id = DynamicModelMultipleChoiceField(
         queryset=UCKConsole.objects.all(), required=False, label='UCK Console',
     )
@@ -106,6 +108,7 @@ class UnifiFloorplanMapFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('console_id', 'is_pushed', name='UniFi Design'),
     )
+    tag = TagFilterField(UnifiFloorplanMap)
     console_id = DynamicModelMultipleChoiceField(
         queryset=UCKConsole.objects.all(), required=False, label='UCK Console',
     )
@@ -121,6 +124,7 @@ class SyncLogFilterForm(NetBoxModelFilterSetForm):
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('console_id', 'module', 'status', 'started_after', 'started_before', name='Sync'),
     )
+    tag = TagFilterField(SyncLog)
     console_id = DynamicModelMultipleChoiceField(
         queryset=UCKConsole.objects.all(), required=False, label='UCK Console',
     )

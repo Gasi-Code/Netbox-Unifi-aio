@@ -1,5 +1,4 @@
 from netbox.plugins import PluginMenu, PluginMenuItem, PluginMenuButton
-from utilities.choices import ButtonColorChoices
 
 console_item = PluginMenuItem(
     link='plugins:netbox_unifi_aio:uckconsole_list',
@@ -9,7 +8,6 @@ console_item = PluginMenuItem(
             link='plugins:netbox_unifi_aio:uckconsole_add',
             title='Console hinzufuegen',
             icon_class='mdi mdi-plus-thick',
-            color=ButtonColorChoices.GREEN,
         ),
     ),
 )
