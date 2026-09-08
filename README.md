@@ -11,6 +11,10 @@ netbox_unifi_aio/
 ├── __init__.py          PluginConfig
 ├── models.py             Re-Export aller Modelle (Django braucht das hier)
 ├── forms.py, tables.py, views.py, filtersets.py, urls.py, navigation.py, signals.py
+├── api/
+│   ├── serializers.py     REST-API-Serializer (Credentials bewusst ausgeschlossen)
+│   ├── views.py            NetBoxModelViewSet pro Modell
+│   └── urls.py              NetBoxRouter, wird von NetBox automatisch unter /api/plugins/netbox-unifi-aio/ eingehaengt
 ├── base/
 │   ├── models.py          UCKConsole (ein Eintrag pro UDM/UCK), SyncLog
 │   ├── client.py           UnifiIntegrationClient (offiziell) + UnifiDesignClient (inoffiziell)
