@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netbox-unifi-aio"
+version = "0.1.0"
+description = "UniFi UCK All-in-One Integration fuer NetBox (Network, Design, spaeter Protect/Access)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28",
+    "cryptography>=41.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["netbox_unifi_aio*"]
