@@ -35,7 +35,10 @@ class UCKConsole(NetBoxModel):
     )
     unifi_site_id = models.CharField(
         max_length=100, blank=True, default='',
-        help_text='UniFi-interne Site-ID (nicht der NetBox-Site-Name). Leer = "default".',
+        help_text=(
+            'Site-UUID aus der Integration API (nicht der NetBox-Site-Name, nicht "default" - '
+            'das gilt nur fuer die inoffizielle API). Leer = erste Site wird automatisch ermittelt.'
+        ),
     )
 
     # --- Session login (unofficial, v2 API) - for the design/ module ---

@@ -34,7 +34,15 @@ def sync_network(console_id: int) -> SyncLog:
             api_key=console.integration_api_key,
             verify_tls=console.verify_tls,
         )
-        site_id = console.unifi_site_id or 'default'
+        site_id = console.unifi_site_id
+        if not site_id:
+            # The official Integration API v1 expects the site's UUID, not the
+            # 'default' name used by the legacy/internal API - resolve it via
+            # /sites when the console has no explicit unifi_site_id configured.
+            sites = client.list_sites()
+            if not sites:
+                raise UnifiAPIError('Keine Sites ueber die Integration-API gefunden.')
+            site_id = sites[0]['id']
         remote_devices = client.list_devices(site_id)
     except ValueError as exc:
         logger.exception('Network-Sync fehlgeschlagen fuer %s (Entschluesselung)', console)
