@@ -1,0 +1,112 @@
+{% extends 'generic/object.html' %}
+
+{% block content %}
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">UCK Console</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Site</th>
+            <td>{{ object.site|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Base-URL</th>
+            <td>{{ object.base_url }}</td>
+          </tr>
+          <tr>
+            <th scope="row">TLS-Verifikation</th>
+            <td>{% if object.verify_tls %}Ja{% else %}Nein{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">UniFi Site-ID</th>
+            <td>{{ object.unifi_site_id|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Network-API konfiguriert</th>
+            <td>{% if object.has_integration_credentials %}Ja{% else %}Nein{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">Design-API konfiguriert</th>
+            <td>{% if object.has_design_credentials %}Ja{% else %}Nein{% endif %}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">Sync-Aktionen</h5>
+      <div class="card-body">
+        <form method="post" action="{% url 'plugins:netbox_unifi_aio:uckconsole_sync_network' pk=object.pk %}" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-sm">Network synchronisieren</button>
+        </form>
+        <form method="post" action="{% url 'plugins:netbox_unifi_aio:uckconsole_sync_design' pk=object.pk %}" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-sm">Design synchronisieren</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col col-md-12">
+    <div class="card">
+      <h5 class="card-header">Geraete ({{ devices|length }})</h5>
+      <div class="card-body">
+        {% if devices %}
+          <ul class="mb-0">
+            {% for device in devices %}
+              <li>{{ device|linkify }} ({{ device.mac_address }})</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <span class="text-muted">Noch keine Geraete synchronisiert.</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">Floorplan Maps ({{ floorplan_maps|length }})</h5>
+      <div class="card-body">
+        {% if floorplan_maps %}
+          <ul class="mb-0">
+            {% for map in floorplan_maps %}
+              <li>{{ map|linkify }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <span class="text-muted">Noch keine Karten synchronisiert.</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">Letzte Sync-Logs</h5>
+      <div class="card-body">
+        {% if recent_logs %}
+          <ul class="mb-0">
+            {% for log in recent_logs %}
+              <li>{{ log|linkify }} - {{ log.status }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <span class="text-muted">Noch keine Sync-Laeufe.</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

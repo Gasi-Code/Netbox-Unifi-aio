@@ -15,3 +15,6 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 include = ["netbox_unifi_aio*"]
+
+[tool.setuptools.package-data]
+netbox_unifi_aio = ["templates/**/*.html"]

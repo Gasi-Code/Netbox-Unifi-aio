@@ -1,0 +1,56 @@
+{% extends 'generic/object.html' %}
+
+{% block content %}
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">UniFi Floorplan Map</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Console</th>
+            <td>{{ object.console|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Groesse</th>
+            <td>{% if object.width_px and object.height_px %}{{ object.width_px }} x {{ object.height_px }} px{% else %}&mdash;{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">In netbox_floorplan gepusht</th>
+            <td>{% if object.is_pushed %}Ja (PK {{ object.floorplan_object_id }}){% else %}Nein{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">Zuletzt synchronisiert</th>
+            <td>{{ object.last_synced }}</td>
+          </tr>
+        </table>
+      </div>
+      {% if not object.is_pushed %}
+      <div class="card-footer">
+        <form method="post" action="{% url 'plugins:netbox_unifi_aio:unififloorplanmap_push' pk=object.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-sm" {% if not object.image %}disabled{% endif %}>Push zu netbox_floorplan</button>
+          {% if not object.image %}
+            <span class="text-muted">Kein Kartenbild vorhanden - erst Design-Sync erneut laufen lassen.</span>
+          {% endif %}
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col col-md-6">
+    {% if object.image %}
+    <div class="card">
+      <h5 class="card-header">Kartenbild</h5>
+      <div class="card-body">
+        <img src="{{ object.image.url }}" class="img-fluid" alt="{{ object.name }}">
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

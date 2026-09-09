@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 
 from netbox.views import generic
+from netbox.object_actions import AddObject
 
 from . import forms, tables
 from .filtersets import (
@@ -22,6 +23,8 @@ class UCKConsoleListView(generic.ObjectListView):
     table = tables.UCKConsoleTable
     filterset = UCKConsoleFilterSet
     filterset_form = forms.UCKConsoleFilterForm
+    # No bulk import/export/edit/rename/delete views exist - only single add/edit/delete.
+    actions = (AddObject,)
 
 
 class UCKConsoleView(generic.ObjectView):
@@ -51,6 +54,8 @@ class UnifiDeviceListView(generic.ObjectListView):
     table = tables.UnifiDeviceTable
     filterset = UnifiDeviceFilterSet
     filterset_form = forms.UnifiDeviceFilterForm
+    # Populated exclusively by sync_network() - no add/import/export/bulk views exist.
+    actions = ()
 
 
 class UnifiDeviceView(generic.ObjectView):
@@ -64,6 +69,8 @@ class UnifiFloorplanMapListView(generic.ObjectListView):
     table = tables.UnifiFloorplanMapTable
     filterset = UnifiFloorplanMapFilterSet
     filterset_form = forms.UnifiFloorplanMapFilterForm
+    # Populated exclusively by sync_design() - no add/import/export/bulk views exist.
+    actions = ()
 
 
 class UnifiFloorplanMapView(generic.ObjectView):
@@ -77,6 +84,8 @@ class SyncLogListView(generic.ObjectListView):
     table = tables.SyncLogTable
     filterset = SyncLogFilterSet
     filterset_form = forms.SyncLogFilterForm
+    # Written exclusively by sync_network()/sync_design() - no add/import/export/bulk views exist.
+    actions = ()
 
 
 class SyncLogView(generic.ObjectView):

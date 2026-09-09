@@ -1,0 +1,51 @@
+{% extends 'generic/object.html' %}
+
+{% block content %}
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">UniFi Device</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Console</th>
+            <td>{{ object.console|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Name</th>
+            <td>{{ object.name|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">MAC-Adresse</th>
+            <td>{{ object.mac_address }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Modell</th>
+            <td>{{ object.model|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">IP-Adresse</th>
+            <td>{{ object.ip_address|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{{ object.state|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Adoptiert</th>
+            <td>{% if object.adopted %}Ja{% else %}Nein{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">NetBox-Geraet</th>
+            <td>{% if object.netbox_device %}{{ object.netbox_device|linkify }}{% else %}&mdash;{% endif %}</td>
+          </tr>
+          <tr>
+            <th scope="row">Zuletzt synchronisiert</th>
+            <td>{{ object.last_synced }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

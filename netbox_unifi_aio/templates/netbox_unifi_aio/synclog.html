@@ -1,0 +1,49 @@
+{% extends 'generic/object.html' %}
+
+{% block content %}
+<div class="row mb-3">
+  <div class="col col-md-6">
+    <div class="card">
+      <h5 class="card-header">Sync-Log</h5>
+      <div class="card-body">
+        <table class="table table-hover attr-table">
+          <tr>
+            <th scope="row">Console</th>
+            <td>{{ object.console|linkify }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Modul</th>
+            <td>{{ object.module }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Status</th>
+            <td>{{ object.get_status_display }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Gestartet</th>
+            <td>{{ object.started }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Beendet</th>
+            <td>{{ object.finished|placeholder }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Zusammenfassung</th>
+            <td>{{ object.summary|placeholder }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col col-md-6">
+    {% if object.detail %}
+    <div class="card">
+      <h5 class="card-header">Details / Fehler</h5>
+      <div class="card-body">
+        <pre class="mb-0">{{ object.detail }}</pre>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

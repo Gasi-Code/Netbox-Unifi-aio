@@ -29,6 +29,8 @@ class UnifiDeviceTable(NetBoxTable):
     name = tables.Column(linkify=True)
     console = tables.Column(linkify=True)
     netbox_device = tables.Column(linkify=True, verbose_name='NetBox-Geraet')
+    # No unifidevice_edit/_delete views exist - devices are managed exclusively via sync.
+    actions = columns.ActionsColumn(actions=('changelog',))
 
     class Meta(NetBoxTable.Meta):
         model = UnifiDevice
@@ -45,6 +47,8 @@ class UnifiFloorplanMapTable(NetBoxTable):
     name = tables.Column(linkify=True)
     console = tables.Column(linkify=True)
     is_pushed = columns.BooleanColumn(verbose_name='In netbox_floorplan')
+    # No unififloorplanmap_edit/_delete views exist - maps are managed exclusively via sync/push.
+    actions = columns.ActionsColumn(actions=('changelog',))
 
     class Meta(NetBoxTable.Meta):
         model = UnifiFloorplanMap
@@ -55,6 +59,8 @@ class UnifiFloorplanMapTable(NetBoxTable):
 class SyncLogTable(NetBoxTable):
     console = tables.Column(linkify=True)
     status = columns.ChoiceFieldColumn()
+    # No synclog_edit/_delete views exist - logs are written exclusively by sync jobs.
+    actions = columns.ActionsColumn(actions=('changelog',))
 
     class Meta(NetBoxTable.Meta):
         model = SyncLog
